@@ -15,21 +15,21 @@
     <div class="content">
         <div class="card-grid">
             <div class="card">
-                <p class="card-title">LEFT WHEEL</p>
+                <p class="card-title">THROTTLE</p>
                 <p class="switch">
                     <input type="range" oninput="updateSliderPower(this)" id="slider1" min="-100" max="100" step="1"
-                        value="0" class="slider">
+                        value="0" class="slider-vertical">
                 </p>
                 <p class="state">Power: <span id="sliderValue1"></span> &percnt;</p>
             </div>
 
             <div class="card">
-                <p class="card-title">RIGHT WHEEL</p>
+                <p class="card-title">DIRECTION</p>
                 <p class="switch">
-                    <input type="range" oninput="updateSliderPower(this)" id="slider2" min="-100" max="100" step="1"
-                        value="0" class="slider">
+                    <input type="range" oninput="updateSliderPower(this)" id="slider2" min="-100" max="100" step="25"
+                        value="0" class="slider-horizontal">
                 </p>
-                <p class="state">Power: <span id="sliderValue2"></span> &percnt;</p>
+                <p class="state">Turn Output: <span id="sliderValue2"></span> &percnt;</p>
             </div>
 
             <div class="card">
