@@ -1,5 +1,7 @@
 # ESP Tankbot
-## WiFi Motor Control
+### *WiFi Motor Control*
+
+![ESP32 TankBot](./images/esp32tankbot_threequarter.jpg)
 
 This project provides a simple way to control two DC motors using an Adafruit motor shield and a WebSocket connection. The program receives messages over the WebSocket connection and uses these messages to control the speed and direction of the motors.
 
@@ -34,3 +36,11 @@ Contributions to this project are welcome. If you find a bug or have a feature r
 ## License
 
 This project is licensed under the MIT License. See the `LICENSE` file for details.
+
+## Resources
+
+* Big thanks to [Random Nerd Tutorials](https://randomnerdtutorials.com/esp32-web-server-websocket-sliders/) - I used their tutorial for a good portion of this to get started
+  
+* [Adafruit Huzzah32](https://learn.adafruit.com/adafruit-huzzah32-esp32-feather/overview)
+
+* [Adafruit DC Motor Featherwing](https://learn.adafruit.com/adafruit-stepper-dc-motor-featherwing)
