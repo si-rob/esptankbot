@@ -96,6 +96,49 @@ void stopMotors()
   digitalWrite(LED, LOW);
 }
 
+std::pair<int, int> directionValues(int directionSlider)
+{
+  // Turn            | motor1     | motor2       | directionSlider
+  // 100% LEFT       | 0          | 100          | -100
+  // 75% LEFT        | 25         | 100          | -75
+  // 50% LEFT        | 50         | 100          | -50
+  // 25% LEFT        | 75         | 100          | -25
+  // FORE/BACK/STOP* | 100        | 100          | 0
+  // 25% RIGHT       | 100        | 75           | 25
+  // 50% RIGHT       | 100        | 50           | 50
+  // 75% RIGHT       | 100        | 25           | 75
+  // 100% RIGHT      | 100        | 0            | 100
+
+  // motor1 & motor2 values are a factor of total power output related to throttle
+
+  // if directionSlider is negative, turn left
+  // if directionSlider is positive, turn right
+  // if directionSlider is 0, go straight
+
+  // leftTurnPower is the power output of the left motor as a factor of sliderValue1
+  // rightTurnPower is the power output of the right motor as a factor of sliderValue1
+
+  int leftTurnPower, rightTurnPower;
+
+  if (directionSlider < 0)
+  {
+    rightTurnPower = 100;
+    leftTurnPower = map(directionSlider, -100, 0, 0, 100);
+  }
+  else if (directionSlider == 0)
+  {
+    rightTurnPower = 100;
+    leftTurnPower = 100;
+  }
+  else if (directionSlider > 0)
+  {
+    rightTurnPower = map(directionSlider, 0, 100, 100, 0);
+    leftTurnPower = 100;
+  }
+
+  return std::make_pair(leftTurnPower, rightTurnPower);
+}
+
 void handleWebSocketMessage(void *arg, uint8_t *data, size_t len)
 {
   AwsFrameInfo *info = (AwsFrameInfo *)arg;
