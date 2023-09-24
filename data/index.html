@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESP Tank Bot</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="topnav">
+        <h1>ESPTankBot</h1>
+    </div>
+    <div class="content">
+        <div class="card-grid">
+            <div class="card">
+                <p class="card-title">LEFT WHEEL</p>
+                <p class="switch">
+                    <input type="range" oninput="updateSliderPower(this)" id="slider1" min="-100" max="100" step="1"
+                        value="0" class="slider">
+                </p>
+                <p class="state">Power: <span id="sliderValue1"></span> &percnt;</p>
+            </div>
+
+            <div class="card">
+                <p class="card-title">RIGHT WHEEL</p>
+                <p class="switch">
+                    <input type="range" oninput="updateSliderPower(this)" id="slider2" min="-100" max="100" step="1"
+                        value="0" class="slider">
+                </p>
+                <p class="state">Power: <span id="sliderValue2"></span> &percnt;</p>
+            </div>
+
+            <div class="card">
+                <p class="card-title">STOP ALL MOTORS</p>
+                <p class="switch">
+                    <input type="button" onclick="stopMotors()" value="STOP" class="button">
+                </p>
+            </div>
+
+            <div class="card">
+                <p class="card-title">TURBO MODE</p>
+                <p class="switch">
+                    <input type="checkbox" onclick="turboMode(this)" id="turboMode" value="0">
+                    <label for="turboMode">Toggle</label>
+            </div>
+        </div>
+        <script src="script.js"></script>
+</body>
+
+</html>

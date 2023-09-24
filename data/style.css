@@ -1,0 +1,142 @@
+html {
+    font-family: Arial, Helvetica, sans-serif;
+    display: inline-block;
+    text-align: center;
+}
+
+h1 {
+    font-size: 1.8rem;
+    color: white;
+}
+
+p {
+    font-size: 1.4rem;
+}
+
+.topnav {
+    overflow: hidden;
+    background-color: #0A1128;
+}
+
+body {
+    margin: 0;
+}
+
+.content {
+    padding: 30px;
+}
+
+.card-grid {
+    max-width: 700px;
+    margin: auto auto;
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+.card {
+    background-color: white;
+    box-shadow: 2px 2px 12px 1px rgba(140, 140, 140, 0.5);
+}
+
+.card-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #034078;
+}
+
+.state {
+    font-size: 1.2rem;
+    color: #1282A2;
+}
+
+.slider {
+    -webkit-appearance: none;
+    margin: 0 auto;
+    width: 15px;
+    height: 100%;
+    border-radius: 10px;
+    background: #FFD65C;
+    outline: none;
+    appearance: slider-vertical;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #034078;
+    cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #034078;
+    cursor: pointer;
+}
+
+.switch {
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+.button {
+    -webkit-appearance: none;
+    appearance: none;
+    display: inline-block;
+    background-color: #8f0404;
+    border: none;
+    color: white;
+    padding: 16px 40px;
+    text-decoration: none;
+    font-size: 30px;
+    margin: 2px;
+    cursor: pointer;
+    border-radius: 10px;
+    grid-row-start: 2;
+}
+
+input[type=checkbox] {
+    height: 0;
+    width: 0;
+    visibility: hidden;
+}
+
+label {
+    cursor: pointer;
+    text-indent: -9999px;
+    height: 100px;
+    background: grey;
+    display: block;
+    border-radius: 100px;
+    position: relative;
+}
+
+label:after {
+    content: "";
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: 90px;
+    height: 90px;
+    background: #fff;
+    border-radius: 90px;
+    transition: 0.3s;
+}
+
+input:checked+label {
+    background: #034078;
+}
+
+input:checked+label:after {
+    left: calc(100% - 5px);
+    transform: translateX(-100%);
+}
+
+label:active:after {
+    width: 130px;
+}
