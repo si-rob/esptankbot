@@ -12,6 +12,11 @@ To use this program, you will need an ESP32 (I'm using the Adafruit Huzzah ESP32
 1. Connect the Adafruit motor shield to the ESP32 board.
 2. Open the `main.cpp` file in the Arduino IDE.
 3. Modify the Wi-Fi credentials to match your SSID/password.
+   * Be sure to create a new header file called `src\WiFiCredentials.h` and add the following code:
+   ```
+   #define SSID "YOUR_SSID_HERE"
+   #define PASSWORD "YOUR_PASSWORD_HERE"
+   ```
 4. Upload the code to the ESP32 board.
 5. Open the Serial Monitor to view the IP address of the ESP32 board.
 6. Open a web browser and connect to the IP address of the ESP32 board.
