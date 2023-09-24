@@ -4,11 +4,12 @@
 #include <SPI.h>
 #include <Adafruit_MotorShield.h>
 #include <Arduino.h>
+#include <stdlib.h>
 
 #define LED 13
 
-const char *ssid = "";
-const char *password = "";
+const char *ssid = getenv("WIFI_SSID");
+const char *password = getenv("WIFI_PASSWORD");
 
 AsyncWebServer server(80);
 AsyncWebSocket ws("/ws");
