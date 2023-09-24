@@ -16,6 +16,8 @@ To use this program, you will need an ESP32 (I'm using the Adafruit Huzzah ESP32
 
 ## Usage
 
+![WebUI Control](./images/webui-v1.png)
+
 The program listens for messages over the WebSocket connection and responds to the following commands:
 
 - `1sX`: Set the speed of the left motor to `X`, where `X` is a value between -100 and 100.
