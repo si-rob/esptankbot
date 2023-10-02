@@ -1,52 +1,84 @@
 <!DOCTYPE html>
-
-<html lang="en">
+<html>
 
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ESP Tank Bot</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=.9, maximum-scale=1, user-scalable=yes">
 </head>
 
-<body>
-    <div class="topnav">
-        <h1>ESPTankBot</h1>
+<body class="noselect" align="center" style="background-color:white">
+
+    <div class="slidecontainer">
+        <label for="powerSwitch" style="font-size: 20px;">HorizontalScreen:</label>
+        <input type="checkbox" id="powerSwitch" class="power-switch" onchange='sendButtonInput("Switch", 0)'>
     </div>
-    <div class="content">
-        <div class="card-grid">
-            <div class="card">
-                <p class="card-title">THROTTLE</p>
-                <p class="switch">
-                    <input type="range" oninput="updateSliderPower(this)" id="slider1" min="-100" max="100" step="1"
-                        value="0" class="slider-vertical">
-                </p>
-                <p class="state">Power: <span id="sliderValue1"></span> &percnt;</p>
-            </div>
+    <h1 style="color: black;text-align:center;">MINISKIDI</h1>
 
-            <div class="card">
-                <p class="card-title">DIRECTION</p>
-                <p class="switch">
-                    <input type="range" oninput="updateSliderPower(this)" id="slider2" min="-100" max="100" step="25"
-                        value="0" class="slider-horizontal">
-                </p>
-                <p class="state">Turn Output: <span id="sliderValue2"></span> &percnt;</p>
-            </div>
+    <table id="mainTable" style="width:400px;margin:auto;table-layout:fixed" CELLSPACING=10>
+        <tr>
+            <td></td>
+            <td class="button" ontouchstart='sendButtonInput("MoveCar","1")'
+                onmousedown='sendButtonInput("MoveCar","1")' onmouseup='sendButtonInput("MoveCar","0")'
+                ontouchend='sendButtonInput("MoveCar","0")'><span class="arrows">&#8679;</span></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td class="button" ontouchstart='sendButtonInput("MoveCar","3")'
+                onmousedown='sendButtonInput("MoveCar","3")' onmouseup='sendButtonInput("MoveCar","0")'
+                ontouchend='sendButtonInput("MoveCar","0")'><span class="arrows">&#8678;</span></td>
+            <td class="button"></td>
+            <td class="button" ontouchstart='sendButtonInput("MoveCar","4")'
+                onmousedown='sendButtonInput("MoveCar","4")' onmouseup='sendButtonInput("MoveCar","0")'
+                ontouchend='sendButtonInput("MoveCar","0")'><span class="arrows">&#8680;</span></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td class="button" ontouchstart='sendButtonInput("MoveCar","2")'
+                onmousedown='sendButtonInput("MoveCar","2")' onmouseup='sendButtonInput("MoveCar","0")'
+                ontouchend='sendButtonInput("MoveCar","0")'><span class="arrows">&#8681;</span></td>
+            <td></td>
+        </tr>
+        <tr />
+        <tr />
+        <tr />
+        <tr />
+        <tr>
+            <td class="button" ontouchstart='sendButtonInput("MoveCar","6")'
+                onmousedown='sendButtonInput("MoveCar","6")' onmouseup='sendButtonInput("MoveCar","0")'
+                ontouchend='sendButtonInput("MoveCar","0")'><span class="arrows">&#8678;</span></td>
+            <td class="button"></td>
+            <td class="button" ontouchstart='sendButtonInput("MoveCar","5")'
+                onmousedown='sendButtonInput("MoveCar","5")' onmouseup='sendButtonInput("MoveCar","0")'
+                ontouchend='sendButtonInput("MoveCar","0")'><span class="arrows">&#8680;</span></td>
+        </tr>
+        <tr />
+        <tr />
+        <tr />
+        <tr />
+        <tr>
+            <td style="text-align:left;font-size:25px"><b>Bucket:</b></td>
+            <td colspan=2>
+                <div class="slidecontainer">
+                    <input type="range" min="10" max="180" value="90" class="slider" id="Bucket"
+                        oninput='sendButtonInput("Bucket",value)'>
+                </div>
+            </td>
+        </tr>
+        <tr />
+        <tr />
+        <tr />
+        <tr />
+        <tr>
+            <td style="text-align:left;font-size:25px"><b>AUX:</b></td>
+            <td colspan=2>
+                <div class="slidecontainer">
+                    <input type="range" min="10" max="180" value="90" class="slider" id="AUX"
+                        oninput='sendButtonInput("AUX",value)'>
+                </div>
+            </td>
+        </tr>
 
-            <div class="card">
-                <p class="card-title">STOP ALL MOTORS</p>
-                <p class="switch">
-                    <input type="button" onclick="stopMotors()" value="STOP" class="button">
-                </p>
-            </div>
+    </table>
 
-            <div class="card">
-                <p class="card-title">TURBO MODE</p>
-                <p class="switch">
-                    <input type="checkbox" onclick="turboMode(this)" id="turboMode" value="0">
-                    <label for="turboMode">Toggle</label>
-            </div>
-        </div>
-        <script src="script.js"></script>
 </body>
 
 </html>
