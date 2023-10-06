@@ -1,52 +1,40 @@
 <!DOCTYPE html>
-
-<html lang="en">
+<html>
 
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ESP Tank Bot</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=.9, maximum-scale=1, user-scalable=yes">
 </head>
 
-<body>
-    <div class="topnav">
-        <h1>ESPTankBot</h1>
-    </div>
-    <div class="content">
-        <div class="card-grid">
-            <div class="card">
-                <p class="card-title">LEFT WHEEL</p>
-                <p class="switch">
-                    <input type="range" oninput="updateSliderPower(this)" id="slider1" min="-100" max="100" step="1"
-                        value="0" class="slider">
-                </p>
-                <p class="state">Power: <span id="sliderValue1"></span> &percnt;</p>
-            </div>
+<body class="noselect" align="center" style="background-color:white">
+    <h1 style="color: black;text-align:center;">ESP TankBot</h1>
 
-            <div class="card">
-                <p class="card-title">RIGHT WHEEL</p>
-                <p class="switch">
-                    <input type="range" oninput="updateSliderPower(this)" id="slider2" min="-100" max="100" step="1"
-                        value="0" class="slider">
-                </p>
-                <p class="state">Power: <span id="sliderValue2"></span> &percnt;</p>
-            </div>
+    <table id="mainTable" style="width:400px;margin:auto;table-layout:fixed" CELLSPACING=10>
+        <tr>
+            <td></td>
+            <td class="button" ontouchstart='sendButtonInput("MoveCar","1")'
+                onmousedown='sendButtonInput("MoveCar","1")' onmouseup='sendButtonInput("MoveCar","0")'
+                ontouchend='sendButtonInput("MoveCar","0")'><span class="arrows">&#8679;</span></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td class="button" ontouchstart='sendButtonInput("MoveCar","3")'
+                onmousedown='sendButtonInput("MoveCar","3")' onmouseup='sendButtonInput("MoveCar","0")'
+                ontouchend='sendButtonInput("MoveCar","0")'><span class="arrows">&#8678;</span></td>
+            <td class="button"></td>
+            <td class="button" ontouchstart='sendButtonInput("MoveCar","4")'
+                onmousedown='sendButtonInput("MoveCar","4")' onmouseup='sendButtonInput("MoveCar","0")'
+                ontouchend='sendButtonInput("MoveCar","0")'><span class="arrows">&#8680;</span></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td class="button" ontouchstart='sendButtonInput("MoveCar","2")'
+                onmousedown='sendButtonInput("MoveCar","2")' onmouseup='sendButtonInput("MoveCar","0")'
+                ontouchend='sendButtonInput("MoveCar","0")'><span class="arrows">&#8681;</span></td>
+            <td></td>
+        </tr>
+    </table>
+    <script src="script.js"></script>
 
-            <div class="card">
-                <p class="card-title">STOP ALL MOTORS</p>
-                <p class="switch">
-                    <input type="button" onclick="stopMotors()" value="STOP" class="button">
-                </p>
-            </div>
-
-            <div class="card">
-                <p class="card-title">TURBO MODE</p>
-                <p class="switch">
-                    <input type="checkbox" onclick="turboMode(this)" id="turboMode" value="0">
-                    <label for="turboMode">Toggle</label>
-            </div>
-        </div>
-        <script src="script.js"></script>
 </body>
 
 </html>

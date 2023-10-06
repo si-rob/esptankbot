@@ -5,8 +5,19 @@
 #include <Adafruit_MotorShield.h>
 #include <Arduino.h>
 #include "WiFiCredentials.h"
+#include <iostream>
+#include <sstream>
 
 #define LED 13
+
+#define UP 1
+#define DOWN 2
+#define LEFT 3
+#define RIGHT 4
+#define STOP 0
+
+// #define FORWARD 1
+// #define BACKWARD -1
 
 const char *ssid = SSID;
 const char *password = PASSWORD;
@@ -19,26 +30,8 @@ Adafruit_DCMotor *L_MOTOR = AFMS.getMotor(1);
 Adafruit_DCMotor *R_MOTOR = AFMS.getMotor(2);
 
 String message = "";
-String sliderValue1 = "0";
-String sliderValue2 = "0";
 u_int8_t leftMotorDirection;
 u_int8_t rightMotorDirection;
-
-int dutyCycle1;
-int dutyCycle2;
-
-bool turboMode = false;
-
-JSONVar sliderValues;
-
-String getSliderValues()
-{
-  sliderValues["sliderValue1"] = String(sliderValue1);
-  sliderValues["sliderValue2"] = String(sliderValue2);
-
-  String jsonString = JSON.stringify(sliderValues);
-  return jsonString;
-}
 
 void initFS()
 {
@@ -67,26 +60,17 @@ void initWiFi()
   Serial.println(WiFi.localIP());
 }
 
-void notifyClients(String sliderValues)
-{
-  ws.textAll(sliderValues);
-}
-
 void stopMotors()
 {
   leftMotorDirection = RELEASE;
   rightMotorDirection = RELEASE;
-  dutyCycle1 = 0;
-  dutyCycle2 = 0;
-  sliderValue1 = "0";
-  sliderValue2 = "0";
-  L_MOTOR->setSpeed(dutyCycle1);
+
+  L_MOTOR->setSpeed(0);
   L_MOTOR->run(leftMotorDirection);
 
-  R_MOTOR->setSpeed(dutyCycle2);
+  R_MOTOR->setSpeed(0);
   R_MOTOR->run(rightMotorDirection);
 
-  notifyClients(getSliderValues());
   digitalWrite(LED, HIGH);
   delay(300);
   digitalWrite(LED, LOW);
@@ -96,87 +80,63 @@ void stopMotors()
   digitalWrite(LED, LOW);
 }
 
+void moveCar(int inputValue)
+{
+  Serial.printf("Got value as %d\n", inputValue);
+
+  L_MOTOR->setSpeed(127);
+  R_MOTOR->setSpeed(127);
+  // if (!(horizontalScreen))
+  // {
+  switch (inputValue)
+  {
+
+  case UP:
+    R_MOTOR->run(FORWARD);
+    L_MOTOR->run(FORWARD);
+    break;
+
+  case DOWN:
+    R_MOTOR->run(BACKWARD);
+    L_MOTOR->run(BACKWARD);
+    break;
+
+  case LEFT:
+    R_MOTOR->run(FORWARD);
+    L_MOTOR->run(BACKWARD);
+    break;
+
+  case RIGHT:
+    R_MOTOR->run(BACKWARD);
+    L_MOTOR->run(FORWARD);
+    break;
+
+  case STOP:
+    stopMotors();
+    break;
+
+  default:
+    stopMotors();
+    break;
+  }
+}
+
 void handleWebSocketMessage(void *arg, uint8_t *data, size_t len)
 {
   AwsFrameInfo *info = (AwsFrameInfo *)arg;
   if (info->final && info->index == 0 && info->len == len && info->opcode == WS_TEXT)
   {
-    data[len] = 0;
-    message = (char *)data;
-    Serial.println(message);
-    if (message.indexOf("turbotrue") >= 0)
+    std::string myData = "";
+    myData.assign((char *)data, len);
+    std::istringstream ss(myData);
+    std::string key, value;
+    std::getline(ss, key, ',');
+    std::getline(ss, value, ',');
+    Serial.printf("Key [%s] Value[%s]\n", key.c_str(), value.c_str());
+    int valueInt = atoi(value.c_str());
+    if (key == "MoveCar")
     {
-      turboMode = true;
-      dutyCycle1 = map(abs(sliderValue1.toInt()), 0, 100, 0, 255);
-      dutyCycle2 = map(abs(sliderValue2.toInt()), 0, 100, 0, 255);
-    }
-    else if (message.indexOf("turbofalse") >= 0)
-    {
-      turboMode = false;
-      dutyCycle1 = map(abs(sliderValue1.toInt()), 0, 100, 0, 127);
-      dutyCycle2 = map(abs(sliderValue2.toInt()), 0, 100, 0, 127);
-    }
-    if (message.indexOf("stopMotors") >= 0)
-    {
-      stopMotors();
-    }
-    if (message.indexOf("1s") >= 0)
-    {
-      sliderValue1 = message.substring(2);
-      if (sliderValue1.toInt() < 0)
-      {
-        leftMotorDirection = BACKWARD;
-      }
-      else if (sliderValue1.toInt() > 0)
-      {
-        leftMotorDirection = FORWARD;
-      }
-      else
-      {
-        leftMotorDirection = RELEASE;
-      }
-      if (turboMode)
-      {
-        dutyCycle1 = map(abs(sliderValue1.toInt()), 0, 100, 0, 255);
-      }
-      else
-      {
-        dutyCycle1 = map(abs(sliderValue1.toInt()), 0, 100, 0, 127);
-      }
-      Serial.println(dutyCycle1);
-      Serial.print(getSliderValues());
-      notifyClients(getSliderValues());
-    }
-    if (message.indexOf("2s") >= 0)
-    {
-      sliderValue2 = message.substring(2);
-      if (sliderValue2.toInt() < 0)
-      {
-        rightMotorDirection = BACKWARD;
-      }
-      else if (sliderValue2.toInt() > 0)
-      {
-        rightMotorDirection = FORWARD;
-      }
-      else
-      {
-        rightMotorDirection = RELEASE;
-      }
-      if (turboMode)
-      {
-        dutyCycle2 = map(abs(sliderValue2.toInt()), 0, 100, 0, 255);
-      }
-      else
-      {
-        dutyCycle2 = map(abs(sliderValue2.toInt()), 0, 100, 0, 127);
-      }
-      Serial.println(dutyCycle2);
-      Serial.print(getSliderValues());
-      notifyClients(getSliderValues());
-    }
-    if (strcmp((char *)data, "getValues") == 0)
-    {
-      notifyClients(getSliderValues());
+      moveCar(valueInt);
     }
   }
 }
@@ -229,11 +189,5 @@ void setup()
 
 void loop()
 {
-  L_MOTOR->setSpeed(dutyCycle1);
-  L_MOTOR->run(leftMotorDirection);
-
-  R_MOTOR->setSpeed(dutyCycle2);
-  R_MOTOR->run(rightMotorDirection);
-
   ws.cleanupClients();
 }
