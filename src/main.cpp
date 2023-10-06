@@ -16,9 +16,6 @@
 #define RIGHT 4
 #define STOP 0
 
-// #define FORWARD 1
-// #define BACKWARD -1
-
 const char *ssid = SSID;
 const char *password = PASSWORD;
 
@@ -28,10 +25,6 @@ AsyncWebSocket ws("/ws");
 Adafruit_MotorShield AFMS = Adafruit_MotorShield();
 Adafruit_DCMotor *L_MOTOR = AFMS.getMotor(1);
 Adafruit_DCMotor *R_MOTOR = AFMS.getMotor(2);
-
-String message = "";
-u_int8_t leftMotorDirection;
-u_int8_t rightMotorDirection;
 
 void initFS()
 {
@@ -62,14 +55,11 @@ void initWiFi()
 
 void stopMotors()
 {
-  leftMotorDirection = RELEASE;
-  rightMotorDirection = RELEASE;
-
   L_MOTOR->setSpeed(0);
-  L_MOTOR->run(leftMotorDirection);
+  L_MOTOR->run(RELEASE);
 
   R_MOTOR->setSpeed(0);
-  R_MOTOR->run(rightMotorDirection);
+  R_MOTOR->run(RELEASE);
 
   digitalWrite(LED, HIGH);
   delay(300);
@@ -80,12 +70,21 @@ void stopMotors()
   digitalWrite(LED, LOW);
 }
 
+void rampMotorSpeed()
+{
+  int var = 0;
+  while (var < 65)
+  {
+    L_MOTOR->setSpeed(var);
+    R_MOTOR->setSpeed(var);
+    var++;
+  }
+}
+
 void moveCar(int inputValue)
 {
   Serial.printf("Got value as %d\n", inputValue);
 
-  L_MOTOR->setSpeed(127);
-  R_MOTOR->setSpeed(127);
   // if (!(horizontalScreen))
   // {
   switch (inputValue)
@@ -94,25 +93,30 @@ void moveCar(int inputValue)
   case UP:
     R_MOTOR->run(FORWARD);
     L_MOTOR->run(FORWARD);
+    rampMotorSpeed();
     break;
 
   case DOWN:
     R_MOTOR->run(BACKWARD);
     L_MOTOR->run(BACKWARD);
+    rampMotorSpeed();
     break;
 
   case LEFT:
     R_MOTOR->run(FORWARD);
     L_MOTOR->run(BACKWARD);
+    rampMotorSpeed();
     break;
 
   case RIGHT:
     R_MOTOR->run(BACKWARD);
     L_MOTOR->run(FORWARD);
+    rampMotorSpeed();
     break;
 
   case STOP:
-    stopMotors();
+    L_MOTOR->setSpeed(0);
+    R_MOTOR->setSpeed(0);
     break;
 
   default:
