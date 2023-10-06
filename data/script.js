@@ -1,4 +1,4 @@
-var webSocketCarInputUrl = "ws:\/\/" + window.location.hostname + "/CarInput";
+var webSocketCarInputUrl = "ws:\/\/" + window.location.hostname + "/ws";
 var websocketCarInput;
 const auxSlider = document.getElementById('AUX');
 const bucketSlider = document.getElementById('Bucket');
@@ -31,30 +31,6 @@ function handleKeyDown(event) {
     }
     if (event.keyCode === 83) {
         sendButtonInput("MoveCar", "6");
-    }
-    if (event.keyCode === 69) {
-        auxSlider.value = parseInt(auxSlider.value) + 5; // You can adjust the increment value as needed
-        sendButtonInput("AUX", auxSlider.value);
-        // Trigger the 'input' event on the slider to update its value
-        auxSlider.dispatchEvent(new Event('input'));
-    }
-    if (event.keyCode === 68) {
-        auxSlider.value = parseInt(auxSlider.value) - 5; // You can adjust the increment value as needed
-        sendButtonInput("AUX", auxSlider.value);
-        // Trigger the 'input' event on the slider to update its value
-        auxSlider.dispatchEvent(new Event('input'));
-    }
-    if (event.keyCode === 81) {
-        bucketSlider.value = parseInt(bucketSlider.value) + 5; // You can adjust the increment value as needed
-        sendButtonInput("Bucket", bucketSlider.value);
-        // Trigger the 'input' event on the slider to update its value
-        bucketSlider.dispatchEvent(new Event('input'));
-    }
-    if (event.keyCode === 65) {
-        bucketSlider.value = parseInt(bucketSlider.value) - 5; // You can adjust the increment value as needed
-        sendButtonInput("Bucket", bucketSlider.value);
-        // Trigger the 'input' event on the slider to update its value
-        bucketSlider.dispatchEvent(new Event('input'));
     }
 }
 function handleKeyUp(event) {
